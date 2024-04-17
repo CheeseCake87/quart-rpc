@@ -69,7 +69,7 @@ or
 
 ```python
 ...
-rpc = RPC(
+RPC(
     app,   # or RPC(blueprint, ...)
     url_prefix="/rpc", 
     functions={
