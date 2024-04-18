@@ -1,0 +1,66 @@
+<html lang="gb">
+<head>
+
+    <title>Quart-RPC</title>
+
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://unpkg.com/flask-rpc-js@0.1.8/cdn.js"></script>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('rpc', () => ({
+
+                result_text: 'awaiting action',
+                result: null,
+
+                check_auth() {
+                    fetch('/rpc', {
+                        method: 'POST',
+                        include: 'credentials',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: frpc('add_numbers', [1, 2, 3])
+                    })
+                        .then(response => response.json())
+                        .then(jsond => {
+                            console.log(jsond)
+                            if (jsond.ok) {
+                                this.result_text = "Success";
+                                this.result = jsond.data;
+                            } else {
+                                this.result_text = "Error";
+                                this.result = jsond.message;
+                            }
+                        });
+                }
+
+            }));
+        });
+    </script>
+
+</head>
+
+<body x-data="rpc">
+
+<p><strong>Result:</strong> <span x-text="result_text"></span></p>
+<p><strong>Result Data:</strong> <span x-text="result"></span></p>
+
+
+<button @click="check_auth()">Run add_numbers function</button>
+
+<hr>
+
+<p>For session auth example uncomment session_auth from __init__.py</p>
+<p>
+    <a href="/true" target="_blank">Set Session to True</a> /
+    <a href="/false" target="_blank">Set Session to False</a>
+</p>
+
+<hr>
+
+<p>For host auth example uncomment host_auth from __init__.py</p>
+
+</body>
+
+</html>
