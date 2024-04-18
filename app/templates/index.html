@@ -4,7 +4,7 @@
     <title>Quart-RPC</title>
 
     <script src="//unpkg.com/alpinejs" defer></script>
-    <script src="https://unpkg.com/frpc-js@latest/cdn.js"></script>
+    <script src="https://unpkg.com/wrpc-js@latest/cdn.js"></script>
 
     <script>
         document.addEventListener('alpine:init', () => {
@@ -20,7 +20,7 @@
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: frpc('add_numbers', [1, 2, 3])
+                        body: wrpc('add_numbers', [1, 2, 3])
                     })
                         .then(response => response.json())
                         .then(jsond => {
