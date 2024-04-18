@@ -8,8 +8,8 @@ pip install quart-rpc
 
 The Quart implementation of [Flask-RPC](https://github.com/CheeseCake87/flask-rpc)
 
-Quart-RPC uses wRPC (Wee RPC) as its protocol, which is a
-micro JSON-based protocol that allows for
+Quart-RPC uses [wRPC (Wee RPC)](https://github.com/CheeseCake87/wRPC) 
+as its protocol, which is a micro JSON-based protocol that allows for
 easy communication between the client and server.
 
 The typical request/response cycle is as follows:
