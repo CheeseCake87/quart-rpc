@@ -13,13 +13,10 @@ def run():
 def add_numbers():
     response = requests.post(
         "http://127.0.0.1:5000/rpc",
-        json=RPCRequest.build(
-            function="add_numbers",
-            data=[1, 2, 3]
-        )
+        json=RPCRequest.build(function="add_numbers", data=[1, 2, 3]),
     )
     print(response.json())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()

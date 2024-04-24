@@ -4,9 +4,7 @@ from quart_rpc.latest import RPC, RPCResponse, RPCAuthSessionKey
 
 
 def add_numbers(data: list) -> int:
-    return RPCResponse.success(
-        sum(data)
-    )
+    return RPCResponse.success(sum(data))
 
 
 def create_app():
@@ -18,9 +16,7 @@ def create_app():
         url_prefix="/rpc",
         # session_auth=RPCAuthSessionKey("logged_in", [True]),
         host_auth=["127.0.0.1:5001"],
-        functions={
-            "add_numbers": add_numbers
-        }
+        functions={"add_numbers": add_numbers},
     )
 
     @app.before_request
