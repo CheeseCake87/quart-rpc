@@ -8,9 +8,24 @@ pip install quart-rpc
 
 The Quart implementation of [Flask-RPC](https://github.com/CheeseCake87/flask-rpc)
 
-Quart-RPC uses [wRPC (Wee RPC)](https://github.com/CheeseCake87/wRPC) 
+Quart-RPC currently only uses the [weeRPC](https://github.com/CheeseCake87/wRPC) 
 as its protocol, which is a micro JSON-based protocol that allows for
 easy communication between the client and server.
+
+This extension is designed to stay slim and provides
+methods for generating requests and responses.
+
+It does not enforce or validate the data passed in, or the
+data being sent back; this is left to you to implement
+in whatever way you feel comfortable (or not at all, if there's
+no need for it)
+
+Quart-RPC does validate the version of weeRPC on an incoming request. This 
+is to ensure that the request is structured in a way that the version 
+of RPC you are using expects.
+
+Other than that, you are free to use whatever data validation
+you feel comfortable with. Pydantic and Marshmallow are good choices.
 
 The typical request/response cycle is as follows:
 
