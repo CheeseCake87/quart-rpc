@@ -6,6 +6,8 @@ pip install quart-rpc
 
 ---
 
+> 🚨Seeking contributions to bring more RPC protocols to Quart-RPC.
+
 The Quart implementation of [Flask-RPC](https://github.com/CheeseCake87/flask-rpc)
 
 Quart-RPC currently only uses the [weeRPC](https://github.com/CheeseCake87/wRPC) 
