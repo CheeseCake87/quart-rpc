@@ -7,16 +7,34 @@ def add_numbers(data: list) -> int:
     return RPCResponse.success(sum(data))
 
 
+def add_text(data: list) -> str:
+    return RPCResponse.success(", ".join(data))
+
+
+def sub_number(data: list) -> str:
+    return RPCResponse.success(data[0] - data[1])
+
+
 def create_app():
     app = Quart(__name__)
     app.secret_key = "secret"
 
-    RPC(
+    rpc = RPC(
         app,
         url_prefix="/rpc",
         # session_auth=RPCAuthSessionKey("logged_in", [True]),
         host_auth=["127.0.0.1:5001"],
         functions={"add_numbers": add_numbers},
+    )
+    
+    rpc.functions_auto_name(
+        functions=[add_text],
+        session_auth__=[RPCAuthSessionKey("logged_in", [True])],
+    )
+
+    rpc.functions_auto_name(
+        functions=[sub_number],
+        host_auth__=["127.0.0.1:5000"]
     )
 
     @app.before_request
