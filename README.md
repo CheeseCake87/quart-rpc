@@ -60,7 +60,7 @@ The typical request/response cycle is as follows:
 
 [This repo](https://github.com/CheeseCake87/quart-rpc) contains a working example of Quart-RPC.
 
-It also includes an example of using the [JS library](https://github.com/CheeseCake87/wrpc-js) that helps
+It also includes an example of using the [JS library](https://github.com/CheeseCake87/weeRPCjs) that helps
 in making requests via fetch to Quart-RPC.
 
 ### Simplest example
