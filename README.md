@@ -35,7 +35,7 @@ The typical request/response cycle is as follows:
 
 ```json
 {
-  "wrpc": 1.0,
+  "weerpc": 1.1,
   "function": "add_numbers",
   "data": [
     1,
@@ -49,7 +49,7 @@ The typical request/response cycle is as follows:
 
 ```json
 {
-  "wrpc": 1.0,
+  "weerpc": 1.1,
   "ok": true,
   "message": "Function 'add_numbers' executed successfully",
   "data": 6
@@ -80,7 +80,7 @@ def add_numbers(data):
 
 
 app = Quart(__name__)
-rpc = RPC(app, url_prefix="/rpc")  # or RPC(blueprint, ...)
+rpc = RPC(app, url_prefix="/rpc")  # or blueprint
 rpc.functions(
     add_numbers=add_numbers
 )
@@ -91,7 +91,7 @@ or
 ```python
 ...
 RPC(
-    app,   # or RPC(blueprint, ...)
+    app,   # or blueprint
     url_prefix="/rpc", 
     functions={
         "add_numbers": add_numbers
@@ -161,17 +161,22 @@ Will return:
 
 ## Security
 
-You can lock down RPC routes by using sessions and or host checking.
+You can lock down RPC routes by using sessions and, or host checking.
 
-### Session Auth
+### Global Session Auth
 
-`from quart_rpc.latest import RPCAuthSessionKey`
+This will check the Quart session for a key value pair, this will apply
+this check to every function registered.
+
+```python
+from quart_rpc.latest import RPCAuthSessionKey
+```
 
 ```python
 ...
 RPC(
-    app,   # or RPC(blueprint, ...)
-    url_prefix="/rpc", 
+    app,  # or blueprint
+    url_prefix="/rpc",
     session_auth=RPCAuthSessionKey("logged_in", [True]),
     functions={
         "add_numbers": add_numbers
@@ -179,13 +184,14 @@ RPC(
 )
 ...
 ```
+
 or a list of RPCAuthSessionKey:
 
 ```python
 ...
 RPC(
-    app,   # or RPC(blueprint, ...)
-    url_prefix="/rpc", 
+    app,  # or blueprint
+    url_prefix="/rpc",
     session_auth=[
         RPCAuthSessionKey("logged_in", [True]),
         RPCAuthSessionKey("user_type", ["admin"])
@@ -197,19 +203,57 @@ RPC(
 ...
 ```
 
-### Host Auth
+### Global Host Auth
 
 In the following example, only requests from `127.0.0.1:5000` will be accepted.
+
+This will apply this check to all functions registered.
 
 ```python
 ...
 RPC(
-    app,   # or RPC(blueprint, ...)
-    url_prefix="/rpc", 
+    app,  # or blueprint
+    url_prefix="/rpc",
     host_auth=["127.0.0.1:5000"],
     functions={
         "add_numbers": add_numbers
     }
+)
+...
+```
+
+### Scoped Session Auth
+
+This will check the Quart session for a key value pair, but only in the
+specified functions being registered.
+
+```python
+from quart_rpc.latest import RPCAuthSessionKey
+```
+
+```python
+...
+rpc = RPC(
+    app,  # or blueprint
+    url_prefix="/rpc",
+)
+rpc.functions(
+    session_auth__=RPCAuthSessionKey("logged_in", [True]),
+    add_numbers=add_numbers
+)
+...
+```
+
+Like the example above, you can also pass a list of RPCAuthSessionKey.
+
+```python
+...
+rpc.functions(
+    session_auth__=[
+        RPCAuthSessionKey("logged_in", [True]),
+        RPCAuthSessionKey("user_type", ["admin"])
+    ],
+    add_numbers=add_numbers
 )
 ...
 ```
