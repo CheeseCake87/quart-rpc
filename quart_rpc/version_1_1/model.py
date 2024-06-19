@@ -4,6 +4,6 @@ from pydantic import BaseModel
 
 
 class RPCModel(BaseModel):
-    wrpc: float
+    weerpc: float
     function: str
     data: t.Any
